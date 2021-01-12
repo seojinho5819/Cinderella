@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Member">
+   
+   
+      <!-- 상품 상세보기 -->
+<!--    <resultMap id="joinMembership" type="Member">
+      <id column="member_id"                property="member_id"/>
+      <result column="user_id"       property="user_id"/>
+      <result column="password"                   property="password"/>
+      <result column="name"                property="name"/>
+      <result column="email_id"                property="email_id"/>
+      <result column="email_server"             property="email_server"/>
+      <result column="zipcode"             property="zipcode"/>
+      <result column="addr"             property="addr"/>
+      <result column="buy_count"             property="buy_count"/>
+      <result column="membership_id"             property="membership_id"/>
+      <result column="regdate"             property="regdate"/>
+      
+      <association 
+         column="membership_id" 
+         property="membership_id"
+         javaType="Membership"
+         select="Membership.selectById"/>
+      
+   </resultMap>
+   
+      <select id="selectMember" resultMap="joinMembership">
+      select * from member m, membership s where m.membership_id=s.membership_id 
+   </select> -->
+   
+   
+   
+   
+   
+   
+   <insert id="insert" parameterType="Member">
+      insert into member(member_id, user_id, password, name, email_id, email_server, zipcode, addr) 
+      values(seq_member.nextval, #{user_id}, #{password}, #{name}, #{email_id}, #{email_server}, #{zipcode}, #{addr})
+   </insert>
+   
+   
+      <!-- 로그인 -->
+   <select id="select" parameterType="Member" resultType="Member">
+      select * from member where user_id=#{user_id} and password=#{password}
+   </select>
+   
+   <select id="selectAll" resultType="Member">
+   select * from member order by member_id
+   </select>
+   
+</mapper>

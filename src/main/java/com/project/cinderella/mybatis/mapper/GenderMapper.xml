@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Gender">
+
+	<insert id="insert" parameterType="Gender">
+		insert into gender(gender_id, product_id, gender_name) values(seq_gender.nextval, #{product_id}, #{gender_name})
+	</insert>
+	
+	<select id="selectByProductId" parameterType="int" resultType="Gender">
+		select * from gender where product_id=#{product_id}
+	</select>
+</mapper>

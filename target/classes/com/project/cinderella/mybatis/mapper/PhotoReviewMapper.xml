@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PhotoReview">
+	<resultMap id="photoReviewproductMap" type="PhotoReview" >
+		<id column="photoreview_id"		property="photoreview_id"/>
+		<result column="user_id"			property="user_id"/>
+		<result column="height"				property="height"/>
+		<result column="product_name"	property="product_name"/>
+		<result column="wearing_size"	property="wearing_size"/>
+		<result column="body_type"		property="body_type"/>
+		<result column="brand"				property="brand"/>
+		<result column="review"			property="review"/>
+		<result column="filename"			property="filename"/>
+		<association column="product_id"
+		 property="product"
+		 javaType="Product"
+		 select="Product.select"/>
+	</resultMap>
+	<select id="selectAll" resultMap="photoReviewproductMap">
+		select * from photoreview order by photoreview_id desc
+	</select>
+	<select id="select" resultType="int" parameterType="int">
+		select * from photoreview where photoreview_id=#{photoreview_id}
+	</select>
+	<insert id="insert" parameterType="PhotoReview" >
+	insert into photoreview(photoreview_id,user_id, height, wearing_size, body_type, brand, product_name, review, filename,product_id)
+	 values(seq_photoreview.nextval,#{user_id, jdbcType=VARCHAR}, #{height, jdbcType=NUMERIC}, #{wearing_size, jdbcType=VARCHAR}, #{body_type, jdbcType=VARCHAR}, #{brand, jdbcType=VARCHAR},#{product_name, jdbcType=VARCHAR},#{review, jdbcType=VARCHAR},#{filename, jdbcType=VARCHAR},#{product.product_id, jdbcType=NUMERIC})
+      <selectKey order="AFTER" keyProperty="photoreview_id" resultType="int">
+	   	select seq_photoreview.currval as product_id from dual
+   	  </selectKey>
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from photoreview where photoreview_id=#{photoreview_id}
+	</delete>
+</mapper>

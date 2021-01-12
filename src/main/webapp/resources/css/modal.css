@@ -1,0 +1,205 @@
+@charset "EUC-KR";
+
+/* The Modal (background) */
+.searchModal {
+display: none; /* Hidden by default */
+position: fixed; /* Stay in place */
+z-index: 10; /* Sit on top */
+left: 0;
+top: 0;
+width: 100%; /* Full width */
+height: 100%; /* Full height */
+overflow: auto; /* Enable scroll if needed */
+background-color: rgb(0,0,0); /* Fallback color */
+background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+/* Modal Content/Box */
+.search-modal-content {
+background-color: #fefefe;
+margin: 15% auto; /* 15% from the top and centered */
+padding: 20px;
+border: 1px solid #888;
+width: 70%; /* Could be more or less, depending on screen size */
+}
+/* -----------------------------
+::  Quickview Modal Area CSS
+----------------------------- */
+
+#quickview button.close {
+    box-shadow: none;
+    position: absolute;
+    right: 15px;
+    text-align: right;
+    top: 10px;
+    z-index: 9;
+}
+
+.quickview_body {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.quickview_pro_img {
+    border: 1px solid #f6f6f6;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+}
+
+.quickview_pro_img .hover_img {
+    left: 0;
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    position: absolute;
+    top: -30px;
+    -webkit-transition-duration: 500ms;
+    transition-duration: 500ms;
+}
+
+.quickview_pro_img:hover .hover_img {
+    top: 0;
+    opacity: 1;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+}
+
+.quickview_pro_des .title {
+    text-transform: capitalize;
+}
+
+.quickview_pro_des {
+    padding: 30px 0;
+}
+
+.quickview_pro_des .price > span {
+    color: #888;
+    font-size: 14px;
+    text-decoration: line-through;
+}
+
+.quickview_pro_des > p {
+    font-size: 13px;
+}
+
+.quickview_pro_des > a {
+    color: #19B5FE;
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+.quickview_body .quantity > input {
+    -moz-appearance: textfield;
+    border: 1px solid #f6f6f6;
+    height: 35px;
+    text-align: center;
+    width: 40px;
+    font-size: 13px;
+}
+
+.quickview_body .quantity {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.quickview_body .cart {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.quickview_body .qty-plus,
+.quickview_body .qty-minus {
+    background-color: transparent;
+    border: 1px solid #f6f6f6;
+    color: #000;
+    cursor: pointer;
+    height: 35px;
+    text-align: center;
+    width: 22px;
+}
+
+.quickview_body .qty-plus {
+    border-left: 0 solid transparent;
+}
+
+.quickview_body .qty-minus {
+    border-right: 0 solid transparent;
+}
+
+.quickview_body .cart-submit {
+    background-color: #ff084e;
+    border: medium none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 13px;
+    height: 35px;
+    margin-left: 15px;
+    width: 120px;
+    -webkit-transition-duration: 500ms;
+    transition-duration: 500ms;
+}
+
+.quickview_body .cart-submit:hover {
+    background-color: #ff084e;
+    color: #fff;
+}
+
+.quickview_body .qty-minus i,
+.quickview_body .qty-plus i {
+    color: #888;
+    font-size: 10px;
+    line-height: 33px;
+}
+
+.quickview_body .modal_pro_wishlist > a,
+.quickview_body .modal_pro_compare > a {
+    background-color: #e91e63;
+    color: #fff;
+    display: block;
+    height: 35px;
+    margin: 0 15px;
+    text-align: center;
+    width: 35px;
+    font-size: 22px;
+}
+
+.quickview_body .modal_pro_wishlist > a:hover,
+.quickview_body .modal_pro_compare > a:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.quickview_body .modal_pro_compare > a {
+    background-color: #00bcd4;
+    margin: 0;
+}
+
+.quickview_body .modal_pro_wishlist > a i,
+.quickview_body .modal_pro_compare > a i {
+    line-height: 35px;
+}
+
+.quickview_body .share_wf > p {
+    font-size: 13px;
+    margin-bottom: 5px;
+    text-transform: capitalize;
+}
+
+.quickview_body .share_wf ._icon > a {
+    color: #888;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.quickview_body .share_wf ._icon > a:hover {
+    color: #000;
+}
+
+.quickview_body .top_seller_product_rating > i {
+    color: #ff9800;
+    font-size: 13px;
+}
