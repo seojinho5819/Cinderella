@@ -62,4 +62,13 @@ public class MybatisMemberDAO implements MemberDAO {
       
    }
 
+
+
+
+@Override
+public Member selectbyuser_id(String user_id) {
+	
+	return sqlSessionTemplate.selectOne("Member.selectbyuser_id",user_id);
+}
+
 }

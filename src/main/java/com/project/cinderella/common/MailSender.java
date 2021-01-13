@@ -19,11 +19,11 @@ import com.project.cinderella.exception.MailSendException;
 @Component
 public class MailSender {
 	String host = "smtp.gmail.com";
-	String user = "youming9999@gmail.com";
-	String password = "yayfdunlygpylirk";
+	String user = "sjh5813@gmail.com";
+	String password = "qixkkdfluoukhzrn";
 	Properties props = new Properties();
 	
-	public void send(String to, String title, String content) throws MailSendException{
+	public void send(String to,String title,String content) throws MailSendException{
 		props.put("mail.smtp.host", host);
 		props.put("mail.smtp.port", 465);
 		props.put("mail.smtp.auth", "true");
@@ -37,6 +37,7 @@ public class MailSender {
 		});
 		
 		try {
+			
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(user));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));

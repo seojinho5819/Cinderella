@@ -21,8 +21,8 @@ public class MybayisPhotoReviewDAO implements PhotoReviewDAO{
 
 	@Override
 	public PhotoReview select(int photoreview_id) {
-		// TODO Auto-generated method stub
-		return null;
+	
+		return sqlSessionTemplate.selectOne("PhotoReview.select", photoreview_id);
 	}
 
 	@Override

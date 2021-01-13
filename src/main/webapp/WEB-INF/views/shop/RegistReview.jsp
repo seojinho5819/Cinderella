@@ -150,7 +150,7 @@
 								<p>
 									Body_type<span>*</span>
 								</p>
-								<input type="text" name="body_type">
+								<input type="text" name="body_type" placeholder="tall,thin,Lower body obesity..">
 							</div>
 							<div class="checkout__input">
 								<p>

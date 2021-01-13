@@ -1,17 +1,7 @@
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-    rel="stylesheet">
-
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="/cinderella/resources/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/cinderella/resources/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="/cinderella/resources/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="/cinderella/resources/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="/cinderella/resources/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="/cinderella/resources/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="/cinderella/resources/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="/cinderella/resources/css/style.css" type="text/css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
-    
+<%@ page contentType="text/html; charset=utf-8"%>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="/cinderella/resources/admin/common.css">
+<link rel="stylesheet" type="text/css" href="/cinderella/resources/admin/main_navi.css">
+<link rel="stylesheet" type="text/css" href="/cinderella/resources/admin/table.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>

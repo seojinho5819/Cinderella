@@ -75,4 +75,15 @@ public class MemberServiceImpl implements MemberService{
       
    }
 
+
+@Override
+public void shotmail(String user_id) {
+	Member member =memberDAO.selectbyuser_id(user_id);
+	
+	String name=member.getName();
+	String email =  member.getEmail_id()+"@"+member.getEmail_server();
+	mailSender.send(email, name+"님 이벤트 당첨(10000원 할인권)을 진심으로 축하드립니다!", "이벤트코드 : qweqwe12");
+	
+}
+
 }

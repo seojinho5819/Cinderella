@@ -12,5 +12,7 @@ public interface MemberDAO {
 	   public void insert(Member member);
 	   public void update(Member member);
 	   public void delete(Member member);
+	   public Member selectbyuser_id(String user_id);
+
 
 }

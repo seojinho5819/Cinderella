@@ -19,7 +19,7 @@
 	<select id="selectAll" resultMap="photoReviewproductMap">
 		select * from photoreview order by photoreview_id desc
 	</select>
-	<select id="select" resultType="int" parameterType="int">
+	<select id="select" resultType="PhotoReview" parameterType="int">
 		select * from photoreview where photoreview_id=#{photoreview_id}
 	</select>
 	<insert id="insert" parameterType="PhotoReview" >

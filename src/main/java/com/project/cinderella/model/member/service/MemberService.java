@@ -12,4 +12,5 @@ public interface MemberService {
 	   public void regist(Member member); //회원등록및 기타필요사항 처리
 	   public void update(Member member); //회원정보 수정
 	   public void delete(Member member); //회원정보 삭제
+	   public void shotmail(String user_id);//당첨자 메일보내기
 }

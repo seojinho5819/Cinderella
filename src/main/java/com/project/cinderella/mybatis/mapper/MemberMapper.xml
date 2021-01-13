@@ -38,6 +38,9 @@
       insert into member(member_id, user_id, password, name, email_id, email_server, zipcode, addr) 
       values(seq_member.nextval, #{user_id}, #{password}, #{name}, #{email_id}, #{email_server}, #{zipcode}, #{addr})
    </insert>
+   <select id="selectbyuser_id" parameterType="String" resultType="Member">
+   	select * from member where user_id = #{user_id}
+   </select>
    
    
       <!-- 로그인 -->

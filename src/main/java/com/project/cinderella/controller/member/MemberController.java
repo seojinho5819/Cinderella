@@ -23,6 +23,7 @@ import com.project.cinderella.exception.MemberNotFoundException;
 import com.project.cinderella.exception.MemberRegistException;
 import com.project.cinderella.model.domain.Member;
 import com.project.cinderella.model.member.service.MemberService;
+import com.project.cinderella.model.product.service.ProductService;
 import com.project.cinderella.model.product.service.TopCategoryService;
 
 @Controller
@@ -35,6 +36,9 @@ public class MemberController {
    
    @Autowired
    private TopCategoryService topCategoryService;
+   
+   @Autowired
+   private ProductService productService;
    
    
    // 회원가입폼 요청
@@ -120,7 +124,7 @@ public class MemberController {
             mav.addObject("memberList", memberList);
             return mav;
          }
-
+        
       
    
         //예외 핸들러 2가지 처리
