@@ -157,7 +157,6 @@ ol {
 
 /* buttons */
 
-
 .primary-btn {
 	display: inline-block;
 	font-size: 13px;
@@ -168,7 +167,6 @@ ol {
 	background: #000000;
 	letter-spacing: 4px;
 }
-
 
 .site-btn {
 	font-size: 14px;
@@ -1395,7 +1393,7 @@ ol {
 
 .shop__sidebar__accordion .card-heading a:after,
 .shop__sidebar__accordion .card-heading>a.active[aria-expanded=false]:after {
-	content: "�꼪";
+	content: "";
 	font-family: "FontAwesome";
 	font-size: 24px;
 	font-weight: 700;
@@ -1407,7 +1405,7 @@ ol {
 }
 
 .shop__sidebar__accordion .card-heading.active a:after {
-	content: "�꼪";
+	content: "";
 	font-family: "FontAwesome";
 	font-size: 24px;
 	font-weight: 700;
@@ -1576,7 +1574,7 @@ ol {
 	position: absolute;
 	right: -14px;
 	top: 0;
-	content: "�꼨";
+	content: "";
 	font-family: "FontAwesome";
 }
 
@@ -2078,7 +2076,7 @@ ol {
 	position: absolute;
 	right: -14px;
 	top: 0;
-	content: "�꼨";
+	content: "";
 	font-family: "FontAwesome";
 }
 

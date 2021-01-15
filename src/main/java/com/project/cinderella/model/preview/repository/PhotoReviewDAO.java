@@ -5,6 +5,7 @@ import com.project.cinderella.model.domain.PhotoReview;
 
 public interface PhotoReviewDAO {
 	public List selectAll();
+	public List selectForProductDetail(String product_name);
 	public PhotoReview select(int photoreview_id);
 	public void insert(PhotoReview photoReview);
 	

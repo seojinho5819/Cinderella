@@ -2,6 +2,9 @@ package com.project.cinderella.controller.main;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,23 +13,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.cinderella.controller.product.ProductController;
+import com.project.cinderella.model.domain.Member;
+import com.project.cinderella.model.product.service.ProductService;
 import com.project.cinderella.model.product.service.TopCategoryService;
 
 @Controller
 public class MainController {
-	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
-	
-	@Autowired
-	private TopCategoryService topCategoryService;
+   private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+   
+   @Autowired
+   private TopCategoryService topCategoryService;
+   
+   @Autowired
+   private ProductService productService;
 
-	@RequestMapping(value="/", method=RequestMethod.GET)
-	public ModelAndView main() {
-		
-		ModelAndView mav = new ModelAndView();
-		//ƒ´≈◊∞Ì∏ÆµÈ ∞°¡Æø¿±‚
-		List topList = topCategoryService.selectAll();
-		mav.addObject("topList", topList);
-		mav.setViewName("index"); //∏ﬁ¿Œ ∆‰¿Ã¡ˆ
-		return mav;
-	}
+   @RequestMapping(value="/", method=RequestMethod.GET)
+   public ModelAndView main(HttpServletRequest request, HttpSession session) {
+      
+      Member member =(Member)session.getAttribute("member");
+      ModelAndView mav = new ModelAndView();
+      //Ïπ¥ÌÖåÍ≥†Î¶¨Îì§ Í∞ÄÏ†∏Ïò§Í∏∞
+      List topList = topCategoryService.selectAll();
+      List productListByHit = productService.selectAllByHit();
+      List productListByNew = productService.selectAll();
+      mav.addObject("topList", topList);
+      mav.addObject("productListByHit", productListByHit);
+      mav.addObject("productListByNew", productListByNew);
+      mav.setViewName("index"); //Î©îÏù∏ ÌéòÏù¥ÏßÄ
+      return mav;
+   }
 }

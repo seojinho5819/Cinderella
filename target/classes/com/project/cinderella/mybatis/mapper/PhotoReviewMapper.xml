@@ -11,20 +11,27 @@
 		<result column="brand"				property="brand"/>
 		<result column="review"			property="review"/>
 		<result column="filename"			property="filename"/>
-		<association column="product_id"
+		<result column="product_id"			property="product_id"/>
+		<!-- <association column="product_id"
 		 property="product"
 		 javaType="Product"
-		 select="Product.select"/>
+		 select="Product.select"/> -->
 	</resultMap>
-	<select id="selectAll" resultMap="photoReviewproductMap">
+	<select id="selectforproductdetail" parameterType="String" resultType="PhotoReview">
+		select * from photoreview where product_name like #{product_name, jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectAll" resultType="PhotoReview">
 		select * from photoreview order by photoreview_id desc
 	</select>
+	
 	<select id="select" resultType="PhotoReview" parameterType="int">
 		select * from photoreview where photoreview_id=#{photoreview_id}
 	</select>
+	
 	<insert id="insert" parameterType="PhotoReview" >
-	insert into photoreview(photoreview_id,user_id, height, wearing_size, body_type, brand, product_name, review, filename,product_id)
-	 values(seq_photoreview.nextval,#{user_id, jdbcType=VARCHAR}, #{height, jdbcType=NUMERIC}, #{wearing_size, jdbcType=VARCHAR}, #{body_type, jdbcType=VARCHAR}, #{brand, jdbcType=VARCHAR},#{product_name, jdbcType=VARCHAR},#{review, jdbcType=VARCHAR},#{filename, jdbcType=VARCHAR},#{product.product_id, jdbcType=NUMERIC})
+	insert into photoreview(photoreview_id,user_id, height, wearing_size, body_type, brand, product_name, review, filename,product_id,regdate)
+	 values(seq_photoreview.nextval,#{user_id, jdbcType=VARCHAR}, #{height, jdbcType=NUMERIC}, #{wearing_size, jdbcType=VARCHAR}, #{body_type, jdbcType=VARCHAR}, #{brand, jdbcType=VARCHAR},#{product_name, jdbcType=VARCHAR},#{review, jdbcType=VARCHAR},#{filename, jdbcType=VARCHAR},#{product_id, jdbcType=NUMERIC},#{regdate,jdbcType=VARCHAR})
       <selectKey order="AFTER" keyProperty="photoreview_id" resultType="int">
 	   	select seq_photoreview.currval as product_id from dual
    	  </selectKey>

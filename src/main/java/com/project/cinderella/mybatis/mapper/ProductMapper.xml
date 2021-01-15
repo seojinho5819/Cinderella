@@ -1,108 +1,156 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Product">
-	<!-- 상품과 연계된 부모를같이 가져오자 , 상품입장에서는 부모와 1:1 관계이다 (association) -->
-	
-	<resultMap id="productSubcategoryMap" type="Product">
-		<id column="product_id" 					property="product_id"/>
-		<result column="product_name" 		property="product_name"/>
-		<result column="price" 						property="price"/>
-		<result column="brand" 					property="brand"/>
-		<result column="detail" 					property="detail"/>
-		<result column="filename" 				property="filename"/>
-		<result column="hit" 						property="hit"/>
-		<!-- 실행타임에 부모의 레코드 한건을 조회하여 Product안의 SubCategory에 채워넣는다 
-		결국: join한 결과와 같다 -->
-		<association column="subcategory_id" 
-			property="subCategory" 
-			javaType="SubCategory" 
-			select="SubCategory.select"/>
-	</resultMap>
-	
-	<select id="selectAll" resultMap="productSubcategoryMap">
-		select * from product order by product_id desc
-	</select>
-	
-	<!--지정한 하위 카테고리에 소속된 모든 상품 가져오기  -->
-	<select id="selectBySubCategoryId" parameterType="int" resultType="Product">
-		select * from product where subcategory_id=#{subcategory_id}
-	</select>	
-	
-	<insert id="insert" parameterType="Product">
-		insert into product(product_id, subcategory_id, product_name, brand, price, detail, filename, hit)
-		values(seq_product.nextval, #{subCategory.subcategory_id}, #{product_name}, #{brand}, #{price}, #{detail}, #{filename}, #{hit})
-		<selectKey order="AFTER" keyProperty="product_id" resultType="int">
-			select seq_product.currval as product_id from dual
-		</selectKey>
-	</insert>
-	
-	<!-- 상품 상세보기 -->
-	<resultMap type="Product" id="joinPsizeTagColorScoreImage">
-		<id column="product_id" 					property="product_id"/>
-		<result column="product_name" 		property="product_name"/>
-		<result column="price" 						property="price"/>
-		<result column="brand" 					property="brand"/>
-		<result column="detail" 					property="detail"/>
-		<result column="filename" 				property="filename"/>
-		<result column="hit" 						property="hit"/>
-		
-		<!-- Score - 1:1관계 -->
-		<!-- <association 
-			column="product_id" 		
-			property="score"
-			javaType="Score"
-			select="Score.selectByProductId"/ -->
-		
-		<!-- Psize - 1:N 관계-->
-		<collection 
-			column="product_id"
-			property="psizeList"
-			javaType="java.util.List"
-			ofType="Psize"
-			select="Psize.selectByProductId"/>
-			
-		<!-- Tag - 1:N 관계 -->
-		<collection 
-			column="product_id"
-			property="tagList"
-			javaType="java.util.List"
-			ofType="Tag"
-			select="Tag.selectByProductId"/>
-			
-		<!-- Color - 1:N 관계-->
-		<collection 
-			column="product_id"
-			property="colorList"
-			javaType="java.util.List"
-			ofType="Color"
-			select="Color.selectByProductId"/>
-			
-		<!-- Image - 1:N 관계-->
-		<collection 
-			column="product_id"
-			property="imageList"
-			javaType="java.util.List"
-			ofType="Image"
-			select="Image.selectByProductId"/>
-			
-		<!-- Gender - 1:N 관계-->
-		<collection 
-			column="product_id"
-			property="genderList"
-			javaType="java.util.List"
-			ofType="Gender"
-			select="Gender.selectByProductId"/>
-			
-	</resultMap>
-	<select id="select" resultMap="joinPsizeTagColorScoreImage">
-		select * from product where product_id =#{product_id}
-	</select>
-	
-	<update id="update" parameterType="Product">
-		update product set product_name=#{product_name}, brand=#{brand}, price=#{price}, detail=#{detail}
-		where product_id=#{product_id}
-		
-	</update>
-	
-	
+
+   <!-- 상품과 연계된 부모를같이 가져오자 , 상품입장에서는 부모와 1:1 관계이다 (association) -->
+   <resultMap id="productSubcategoryMap" type="Product">
+      <id column="product_id"                property="product_id"/>
+      <result column="product_name"       property="product_name"/>
+      <result column="price"                   property="price"/>
+      <result column="brand"                property="brand"/>
+      <result column="detail"                property="detail"/>
+      <result column="filename"             property="filename"/>
+      <result column="hit"                   property="hit"/>
+      <!-- 실행타임에 부모의 레코드 한건을 조회하여 Product안의 SubCategory에 채워넣는다 
+      결국: join한 결과와 같다 -->
+      <association column="subcategory_id" 
+         property="subCategory" 
+         javaType="SubCategory" 
+         select="SubCategory.select"/>
+   </resultMap>
+   <select id="selectAll" resultMap="productSubcategoryMap">
+      select * from product order by product_id desc
+   </select>
+   
+ <!--   
+   <resultMap id="productPsizeMap" type="Product">
+      <id column="product_id"                property="product_id"/>
+      <result column="product_name"       property="product_name"/>
+      <result column="price"                   property="price"/>
+      <result column="brand"                property="brand"/>
+      <result column="detail"                property="detail"/>
+      <result column="filename"             property="filename"/>
+      <result column="hit"                   property="hit"/>
+      실행타임에 부모의 레코드 한건을 조회하여 Product안의 SubCategory에 채워넣는다 
+      결국: join한 결과와 같다
+      <association column="psize_id" 
+         property="pppsize" 
+         javaType="Psize" 
+         select="Psize.selectBySize"/>
+   </resultMap>
+   <select id="selectAllBySize"  resultMap="productPsizeMap" >
+         select * from product where product_id = #{product_id}
+   </select> -->
+   
+   <!-- 조회수 순으로 모든 상품 가져오기 (메인화면 - Most Viewed) -->
+   <select id="selectAllByHit" resultMap="productSubcategoryMap">
+         select * from product order by hit desc
+   </select>
+   
+   <!--지정한 상위 카테고리에 소속된 모든 상품 가져오기  -->
+   <select id="selectByTopCategoryId" parameterType="int" resultType="Product">
+      select * from product where topcategory_id=#{topcategory_id}
+   </select>   
+   <!--지정한 하위 카테고리에 소속된 모든 상품 가져오기  -->
+   <select id="selectBySubCategoryId" parameterType="int" resultType="Product">
+      select * from product where subcategory_id=#{subcategory_id}
+   </select>   
+   
+   <insert id="insert" parameterType="Product">
+      insert into product(product_id, topcategory_id, subcategory_id, product_name, brand, price, detail, filename, hit)
+      values(seq_product.nextval, #{topcategory_id}, #{subCategory.subcategory_id}, #{product_name}, #{brand}, #{price}, #{detail}, #{filename}, #{hit})
+      <selectKey order="AFTER" keyProperty="product_id" resultType="int">
+         select seq_product.currval as product_id from dual
+      </selectKey>
+   </insert>
+   
+   <!-- 조회수 업데이트 -->
+   <update id = "updateHit" parameterType="int">
+         update product set hit = hit+1 where product_id = #{product_id}
+   </update>
+   
+   <!-- 상품 상세보기 -->
+   <resultMap type="Product" id="joinPsizeTagColorScoreImage">
+      <id column="product_id"                property="product_id"/>
+      <result column="product_name"       property="product_name"/>
+      <result column="price"                   property="price"/>
+      <result column="brand"                property="brand"/>
+      <result column="detail"                property="detail"/>
+      <result column="filename"             property="filename"/>
+      <result column="hit"                   property="hit"/>
+      
+      <!-- Score - 1:1관계 -->
+      <!-- <association 
+         column="product_id"       
+         property="score"
+         javaType="Score"
+         select="Score.selectByProductId"/ -->
+      
+      <!-- Psize - 1:N 관계-->
+      <collection 
+         column="product_id"
+         property="psizeList"
+         javaType="java.util.List"
+         ofType="Psize"
+         select="Psize.selectByProductId"/>
+         
+      <!-- Tag - 1:N 관계 -->
+      <collection 
+         column="product_id"
+         property="tagList"
+         javaType="java.util.List"
+         ofType="Tag"
+         select="Tag.selectByProductId"/>
+         
+      <!-- Color - 1:N 관계-->
+      <collection 
+         column="product_id"
+         property="colorList"
+         javaType="java.util.List"
+         ofType="Color"
+         select="Color.selectByProductId"/>
+         
+      <!-- Image - 1:N 관계-->
+      <collection 
+         column="product_id"
+         property="imageList"
+         javaType="java.util.List"
+         ofType="Image"
+         select="Image.selectByProductId"/>
+         
+      <!-- Gender - 1:N 관계-->
+      <collection 
+         column="product_id"
+         property="genderList"
+         javaType="java.util.List"
+         ofType="Gender"
+         select="Gender.selectByProductId"/>
+        
+         
+   </resultMap>
+   
+   <select id="selectproductid" resultType="int" parameterType="String">
+   	select product_id from product where product_name like #{product_name}
+   </select>
+   
+   <select id="select" resultMap="joinPsizeTagColorScoreImage">
+      select * from product where product_id =#{product_id}
+   </select>
+   
+   <select id="selectByProductName" resultMap="joinPsizeTagColorScoreImage" parameterType="String">
+      select * from product where product_name like #{product_name}
+   </select>
+   
+   
+   <!-- 관리자모드 - 상품 수정 -->
+   <update id="update" parameterType="Product">
+      update product set product_name=#{product_name}, brand=#{brand}, price=#{price}, detail=#{detail}
+      where product_id=#{product_id}
+   </update>
+   
+   <!-- 관리자모드 - 상품 삭제 -->
+   <delete id="delete" parameterType="int">
+      delete from product where product_id=#{product_id}
+   </delete>
+   
 </mapper>

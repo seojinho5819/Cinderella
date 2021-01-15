@@ -24,9 +24,15 @@ public class MybayisPhotoReviewDAO implements PhotoReviewDAO{
 	
 		return sqlSessionTemplate.selectOne("PhotoReview.select", photoreview_id);
 	}
+	
+	@Override
+	public List selectForProductDetail(String product_name) {
+		return sqlSessionTemplate.selectList("PhotoReview.selectforproductdetail", product_name);
+	}
 
 	@Override
 	public void insert(PhotoReview photoReview) {
+		
 		sqlSessionTemplate.insert("PhotoReview.insert", photoReview);
 		
 	}
@@ -36,5 +42,6 @@ public class MybayisPhotoReviewDAO implements PhotoReviewDAO{
 		sqlSessionTemplate.delete("PhotoReview.delete",photoreview_id);
 		
 	}
+
 
 }

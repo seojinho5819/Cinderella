@@ -18,121 +18,157 @@ import com.project.cinderella.model.domain.Product;
 import com.project.cinderella.model.domain.Psize;
 import com.project.cinderella.model.domain.Tag;
 import com.project.cinderella.model.product.repository.ColorDAO;
+import com.project.cinderella.model.product.repository.CommentsDAO;
 import com.project.cinderella.model.product.repository.GenderDAO;
 import com.project.cinderella.model.product.repository.ImageDAO;
 import com.project.cinderella.model.product.repository.ProductDAO;
 import com.project.cinderella.model.product.repository.PsizeDAO;
 import com.project.cinderella.model.product.repository.TagDAO;
 
-
 @Service
 public class ProductServiceImpl implements ProductService {
-	private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+   private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
-	@Autowired
-	private ProductDAO productDAO;
+   @Autowired
+   private ProductDAO productDAO;
 
-	@Autowired
-	private ImageDAO imageDAO;
+   @Autowired
+   private ImageDAO imageDAO;
 
-	@Autowired
-	private PsizeDAO psizeDAO;
+   @Autowired
+   private PsizeDAO psizeDAO;
 
-	@Autowired
-	private ColorDAO colorDAO;
+   @Autowired
+   private ColorDAO colorDAO;
 
-	@Autowired
-	private TagDAO tagDAO;
+   @Autowired
+   private TagDAO tagDAO;
 
-	@Autowired
-	private GenderDAO genderDAO;
+   @Autowired
+   private GenderDAO genderDAO;
+   
+   @Autowired
+   private CommentsDAO commentsDAO;
 
-	@Override
-	public List selectAll() {
-		return productDAO.selectAll();
-	}
+   @Override
+   public List selectAll() {
+      return productDAO.selectAll();
+   }
 
-	@Override
-	public List selectById(int subcategory_id) {
-		return productDAO.selectById(subcategory_id);
-	}
+   @Override
+   public List selectAllByHit() {
+      return productDAO.selectAllByHit();
+   }
+   
+   @Override
+   public List selectByTopcategoryId(int topcategory_id) {
+      return productDAO.selectByTopcategoryId(topcategory_id);
+   }
+   @Override
+   public List selectBySubcategoryId(int subcategory_id) {
+      return productDAO.selectBySubcategoryId(subcategory_id);
+   }
 
-	@Override
-	public Product select(int product_id) {
-		return productDAO.select(product_id);
-	}
+   @Override
+   public List selectBySize(String size) {
+      return psizeDAO.selectBySize(size);
+   }
 
-	@Override
-	public void regist(FileManager fileManager, Product product) throws ProductRegistException {
+   @Override
+   public Product select(int product_id) {
+      return productDAO.select(product_id);
+   }
+   @Override
+   public Product selectByProductName(String product_name) {
+   	
+   	return productDAO.selectByProductName(product_name);
+   }
 
-		String ext = fileManager.getExtend(product.getRepImg().getOriginalFilename());
-		product.setFilename(ext); // È®ÀåÀÚ °áÁ¤
-		// db¿¡ ³Ö´Â ÀÏÀº DAO¿¡°Ô ½ÃÅ°°í
-		productDAO.insert(product);
 
-		// ÆÄÀÏ ¾÷·Îµå!!´Â FileManager¿¡°Ô ½ÃÅ²´Ù
-		// ´ëÇ¥ÀÌ¹ÌÁö ¾÷·Îµå
-		String basicImg = product.getProduct_id() + "." + ext;
-		fileManager.saveFile(fileManager.getSaveBasicDir() + File.separator + basicImg, product.getRepImg());
+   @Override
+   public void regist(FileManager fileManager, Product product) throws ProductRegistException {
 
-		// Ãß°¡ÀÌ¹ÌÁö ¾÷·Îµå (FileManager¿¡°Ô Ãß°¡ÀÌ¹ÌÁö °¹¼ö¸¸Å­ ¾÷·Îµå ¾÷¹«¸¦ ½ÃÅ°¸é µÈ´Ù!!)
-		for (int i = 0; i < product.getAddImg().length; i++) {
+      String ext = fileManager.getExtend(product.getRepImg().getOriginalFilename());
+      product.setFilename(ext); // í™•ìž¥ìž ê²°ì •
+      // dbì— ë„£ëŠ” ì¼ì€ DAOì—ê²Œ ì‹œí‚¤ê³ 
+      productDAO.insert(product);
 
-			MultipartFile file = product.getAddImg()[i];
-			ext = fileManager.getExtend(file.getOriginalFilename());
+      // íŒŒì¼ ì—…ë¡œë“œ!!ëŠ” FileManagerì—ê²Œ ì‹œí‚¨ë‹¤
+      // ëŒ€í‘œì´ë¯¸ì§€ ì—…ë¡œë“œ
+      String basicImg = product.getProduct_id() + "." + ext;
+      fileManager.saveFile(fileManager.getSaveBasicDir() + File.separator + basicImg, product.getRepImg());
 
-			// image table¿¡ ³Ö±â!!
-			Image image = new Image();
-			image.setProduct_id(product.getProduct_id()); // fk
-			image.setFilename(ext); // È®ÀåÀÚ ³Ö±â
-			imageDAO.insert(image);
+      // ì¶”ê°€ì´ë¯¸ì§€ ì—…ë¡œë“œ (FileManagerì—ê²Œ ì¶”ê°€ì´ë¯¸ì§€ ê°¯ìˆ˜ë§Œí¼ ì—…ë¡œë“œ ì—…ë¬´ë¥¼ ì‹œí‚¤ë©´ ëœë‹¤!!)
+      for (int i = 0; i < product.getAddImg().length; i++) {
 
-			// ¸Þ´ÏÁ®ÀÇ ÀúÀå ¸Þ¼­µå È£Ãâ
-			String addImg = image.getImage_id() + "." + ext;
-			fileManager.saveFile(fileManager.getSaveAddonDir() + File.separator + addImg, file);
-		}
+         MultipartFile file = product.getAddImg()[i];
+         ext = fileManager.getExtend(file.getOriginalFilename());
 
-		// ±âÅ¸ ¿É¼Ç Áß, »ö»ó »çÀÌÁî ³Ö±â (¹Ýº¹¹®À¸·Î...)
+         // image tableì— ë„£ê¸°!!
+         Image image = new Image();
+         image.setProduct_id(product.getProduct_id()); // fk
+         image.setFilename(ext); // í™•ìž¥ìž ë„£ê¸°
+         imageDAO.insert(image);
 
-		// »çÀÌÁî
-		for (Psize psize : product.getPsize()) {
-			logger.debug("´ç½ÅÀÌ ¼±ÅÃÇÑ »çÀÌÁî´Â " + psize.getFit());
-			psize.setProduct_id(product.getProduct_id());// fk ´ëÀÔ
-			psizeDAO.insert(psize);
-		}
+         // ë©”ë‹ˆì ¸ì˜ ì €ìž¥ ë©”ì„œë“œ í˜¸ì¶œ
+         String addImg = image.getImage_id() + "." + ext;
+         fileManager.saveFile(fileManager.getSaveAddonDir() + File.separator + addImg, file);
+      }
 
-		// »ö»ó
-		for (Color color : product.getColor()) {
-			logger.debug("³Ñ°Ü¹ÞÀº »ö»óÀº " + color.getPicker());
-			color.setProduct_id(product.getProduct_id());
-			colorDAO.insert(color);
-		}
+      // ê¸°íƒ€ ì˜µì…˜ ì¤‘, ìƒ‰ìƒ ì‚¬ì´ì¦ˆ ë„£ê¸° (ë°˜ë³µë¬¸ìœ¼ë¡œ...)
 
-		// ÅÂ±×
-		for (Tag tag : product.getPtag()) {
-			logger.debug("³Ñ°Ü¹ÞÀº ÅÂ±×´Â " + tag.getTag_name());
-			tag.setProduct_id(product.getProduct_id());
-			tagDAO.insert(tag);
-		}
+      // ì‚¬ì´ì¦ˆ
+      for (Psize psize : product.getPsize()) {
+         logger.debug("ë‹¹ì‹ ì´ ì„ íƒí•œ ì‚¬ì´ì¦ˆëŠ” " + psize.getFit());
+         psize.setProduct_id(product.getProduct_id());// fk ëŒ€ìž…
+         psizeDAO.insert(psize);
+      }
 
-		// ÅÂ±×
-		for (Gender gender: product.getPgender()) {
-			logger.debug("³Ñ°Ü¹ÞÀº ¼ºº°Àº " + gender.getGender_name());
-			gender.setProduct_id(product.getProduct_id());
-			genderDAO.insert(gender);
-		}
+      // ìƒ‰ìƒ
+      for (Color color : product.getColor()) {
+         logger.debug("ë„˜ê²¨ë°›ì€ ìƒ‰ìƒì€ " + color.getPicker());
+         color.setProduct_id(product.getProduct_id());
+         colorDAO.insert(color);
+      }
 
-	}
+      // íƒœê·¸
+      for (Tag tag : product.getPtag()) {
+         logger.debug("ë„˜ê²¨ë°›ì€ íƒœê·¸ëŠ” " + tag.getTag_name());
+         tag.setProduct_id(product.getProduct_id());
+         tagDAO.insert(tag);
+      }
 
-	@Override
-	public void update(Product product) {
-		productDAO.update(product);
-	}
+      // íƒœê·¸
+      for (Gender gender: product.getPgender()) {
+         logger.debug("ë„˜ê²¨ë°›ì€ ì„±ë³„ì€ " + gender.getGender_name());
+         gender.setProduct_id(product.getProduct_id());
+         genderDAO.insert(gender);
+      }
 
-	@Override
-	public void delete(int product_id) {
-		// TODO Auto-generated method stub
+   }
 
-	}
+   @Override
+   public void update(Product product) {
+      productDAO.update(product);
+   }
+   
+   @Override
+   public void updateHit(int product_id) {
+      productDAO.updateHit(product_id);
+   }
+
+   @Override
+   public void delete(int product_id) {
+      psizeDAO.delete(product_id);
+      colorDAO.delete(product_id);
+      genderDAO.delete(product_id);
+      imageDAO.delete(product_id);
+      tagDAO.delete(product_id);
+      productDAO.delete(product_id);
+   }
+
+
+
+
 
 }

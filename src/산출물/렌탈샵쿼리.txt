@@ -1,0 +1,325 @@
+create tablespace cinderellaspace
+datafile 'C:\Korea_IT_Academy\app\oracle\oradata\XE\cinderellaspace' size 10M;
+
+create user cinderella
+identified by cinderella
+default tablespace cinderellaspace
+quota unlimited on cinderellaspace;
+
+grant create table, create sequence, create session to cinderella;
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+create table topcategory(
+topcategory_id number primary key
+,topcategory_name varchar(25)
+,rank number
+);
+
+create table subcategory(
+subcategory_id number primary key
+, topcategory_id number
+, subcategory_name varchar(50)
+, constraint fk_topcategorysubcategory foreign key(topcategory_id) references topcategory(topcategory_id)
+);
+
+create table product(
+product_id number primary key
+, topcategory_id number
+, subcategory_id number
+, product_name varchar(40)
+, brand varchar(40)
+, price number default 0
+, detail clob
+, filename varchar(50)
+, hit number
+, constraint fk_topcategoryproduct  foreign key(topcategory_id) references topcategory(topcategory_id)
+, constraint fk_subcategoryproduct  foreign key(subcategory_id) references subcategory(subcategory_id)
+);
+
+create table gender(
+gender_id number primary key
+, product_id number
+, gender_name varchar(10)
+, constraint fk_productgender foreign key(product_id) references product(product_id)
+);
+
+
+create table image(
+image_id number primary key
+, product_id number
+, filename varchar(50)
+, constraint fk_productimage foreign key(product_id) references product(product_id)
+);
+
+create table psize(
+psize_id number primary key
+, product_id number
+, fit varchar(10)
+, constraint fk_productpsize foreign key(product_id) references product(product_id)
+);
+
+create table color(
+color_id number primary key
+, product_id number
+, picker varchar(20)
+, constraint fk_productcolor foreign key(product_id) references product(product_id) 
+);
+
+create table tag(
+tag_id number primary key
+, product_id number
+, tag_name varchar(30)
+, constraint fk_producttag foreign key(product_id) references product(product_id) 
+);
+
+create table membership(
+membership_id number primary key
+, membership_name varchar(10) 
+, membership_content number
+);
+
+create table member(
+member_id number primary key
+, user_id varchar(20)   
+, password varchar(100)
+, name  varchar(20)
+, email_id varchar(20)   
+, email_server varchar(20)
+, zipcode    varchar(10)
+, addr varchar(150)
+, buy_count number default 0
+, membership_id number default 0
+, regdate  date default sysdate
+, constraint fk_membershipmember  foreign key(membership_id) references membership(membership_id)
+);
+
+create table comments(
+comment_id number primary key
+, product_id number
+, comment_content varchar(100)
+, comment_writer varchar (50)
+, regdate date default sysdate
+, hit number
+);
+alter table comments add constraint fk_productcomment foreign key(product_id) references product(product_id) on delete cascade;
+
+create table reply(
+reply_id number primary key
+, comment_id number
+, reply_content varchar(100)
+, reply_writer varchar (50)
+, regdate date default sysdate
+, hit number
+, constraint fk_commentsreply  foreign key(comment_id) references comments(comment_id)
+);
+
+create table photoreview(
+photoreview_id number primary key
+,product_id number
+,user_id varchar(20)
+,product_name varchar(50)
+,height number default 0
+,wearing_size varchar(10)
+,body_type varchar(10)
+,brand varchar(50)
+,review clob
+,filename varchar(50)
+);
+alter table photoreview add constraint fk_productphotoreview foreign key(product_id) references product(product_id) on delete cascade;
+
+create table cart(
+cart_id number primary key
+ , product_id number
+ , member_id number 
+ , quantity number default 0
+ , ppsize varchar(5)
+ , constraint fk_membercart foreign key(member_id) references member(member_id) 
+);
+alter table cart add constraint fk_productcart foreign key(product_id) references product(product_id) on delete cascade;
+
+create table paymethod(
+paymethod_id number primary key 
+, method varchar(20)
+);
+
+create table order_state(
+order_state_id number primary key 
+, state varchar(20)
+);
+
+create table  order_summary(
+order_summary_id number primary key 
+, member_id number 
+, total_price number default 0 
+, total_pay number default 0 
+, orderdate  date default sysdate 
+, order_state_id number 
+, paymethod_id number
+, constraint fk_order_state_order_summary foreign key(order_state_id) references order_state(order_state_id)
+, constraint fk_member_order_summary foreign key(member_id) references member(member_id)
+, constraint fk_paymethod_order_summary foreign key(paymethod_id) references paymethod(paymethod_id)
+);
+
+create table receiver(
+receiver_id number primary key 
+, order_summary_id number 
+, receiver_name varchar(20)
+, receiver_addr varchar(100)
+, receiver_phone  varchar(13) 
+, constraint fk_order_summary_receiver foreign key(order_summary_id) references order_summary(order_summary_id)
+);
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+create sequence  seq_topcategory
+increment by 1
+start with 1;
+
+create sequence  seq_subcategory
+increment by 1
+start with 1;
+
+create sequence  seq_product
+increment by 1
+start with 1;
+
+create sequence seq_gender
+increment by 1
+start with 1;
+
+create sequence seq_image
+increment by 1
+start with 1;
+
+create sequence seq_psize
+increment by 1
+start with 1;
+
+create sequence seq_color
+increment by 1
+start with 1;
+
+create sequence seq_tag
+increment by 1
+start with 1;
+
+create sequence seq_membership
+increment by 1
+start with 1;
+
+create sequence seq_member
+increment by 1
+start with 1;
+
+create sequence seq_comments
+increment by 1
+start with 1;
+
+create sequence seq_reply
+increment by 1
+start with 1;
+
+create sequence seq_photoreview
+increment by 1
+start with 1;
+
+create sequence seq_cart
+increment by 1
+start with 1;
+
+create sequence seq_paymethod
+increment by 1
+start with 1;
+
+create sequence seq_order_state
+increment by 1
+start with 1;
+
+create sequence  seq_order_summary
+increment by 1
+start with 1;
+
+create sequence  seq_receiver
+increment by 1
+start with 1;
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+insert into topcategory values(seq_topcategory.nextval, 'top', 1);
+insert into topcategory values(seq_topcategory.nextval, 'down', 2);
+insert into topcategory values(seq_topcategory.nextval, 'others', 3);
+
+
+insert into subcategory values(seq_subcategory.nextval,1,'아우터');
+insert into subcategory values(seq_subcategory.nextval,1,'니트/가디건');
+insert into subcategory values(seq_subcategory.nextval,1,'셔츠/블라우스');
+insert into subcategory values(seq_subcategory.nextval,1,'맨투맨/후드티/후드집업');
+insert into subcategory values(seq_subcategory.nextval,1,'드레스');
+insert into subcategory values(seq_subcategory.nextval,2,'슬랙스');
+insert into subcategory values(seq_subcategory.nextval,2,'긴바지');
+insert into subcategory values(seq_subcategory.nextval,2,'반바지');
+insert into subcategory values(seq_subcategory.nextval,2,'스커트');
+insert into subcategory values(seq_subcategory.nextval,3,'신발');
+insert into subcategory values(seq_subcategory.nextval,3,'가방');
+insert into subcategory values(seq_subcategory.nextval,3,'액세서리');
+
+
+insert into membership values(0, 'basic', 0);
+insert into membership values(1, 'white', 5);
+insert into membership values(2, 'silver', 10);
+insert into membership values(3, 'gold', 20);
+insert into membership values(4, 'vip', 30);
+insert into membership values(5, 'vvip', 50);
+
+insert into order_state(order_state_id, state) values(seq_order_state.nextval, '주문완료');
+insert into order_state(order_state_id, state) values(seq_order_state.nextval, '상품준비중');
+insert into order_state(order_state_id, state) values(seq_order_state.nextval, '배송출발');
+insert into order_state(order_state_id, state) values(seq_order_state.nextval, '배송완료');
+
+insert into paymethod(paymethod_id, method) values(seq_paymethod.nextval, 'card');
+insert into paymethod(paymethod_id, method) values(seq_paymethod.nextval, '핸드폰');
+insert into paymethod(paymethod_id, method) values(seq_paymethod.nextval, '온라인입금');
+insert into paymethod(paymethod_id, method) values(seq_paymethod.nextval, '가상계좌');
+
+[drop]
+
+drop sequence seq_tag;
+drop sequence seq_color;
+drop sequence seq_psize;
+drop sequence seq_gender;
+drop sequence seq_image;
+drop sequence seq_photoreview;
+drop sequence seq_receiver;
+drop sequence seq_order_summary;
+drop sequence seq_order_state;
+drop sequence seq_paymethod;
+drop sequence seq_cart;
+drop sequence seq_reply;
+drop sequence seq_comments;
+drop sequence seq_member;
+drop sequence seq_membership;
+drop sequence seq_product;
+drop sequence seq_subcategory;
+drop sequence seq_topcategory;
+
+
+
+
+drop table tag;
+drop table color;
+drop table psize;
+drop table gender;
+drop table image;
+drop table photoreview;
+drop table receiver;
+drop table order_summary;
+drop table order_state;
+drop table paymethod;
+drop table cart;
+drop table reply;
+drop table comments;
+drop table member;
+drop table membership;
+drop table product;
+drop table subcategory;
+drop table topcategory;
+
+

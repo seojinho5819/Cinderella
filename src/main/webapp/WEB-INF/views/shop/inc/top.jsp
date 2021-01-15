@@ -1,4 +1,12 @@
+<%@page import="com.project.cinderella.model.domain.Member"%>
+<%@page import="com.project.cinderella.model.domain.SubCategory"%>
+<%@page import="com.project.cinderella.model.domain.TopCategory"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=utf-8"%>
+<%
+   List<TopCategory> topList = (List)request.getAttribute("topList");
+   Member member = (Member)session.getAttribute("member");
+%>
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -29,7 +37,12 @@
         </div>
         <div id="mobile-menu-wrap"></div>
         <div class="offcanvas__text">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
+            <%if(session.getAttribute("member")==null){ //세션에 담겨진 데이터가 없다면%>
+                  <p>로그인이 필요합니다.</p>
+            <%} else {%>
+                  <p><%=member.getName() %> 님 환영합니다.</p>
+                  
+            <%} %>
         </div>
     </div>
     <!-- Offcanvas Menu End -->
@@ -41,13 +54,25 @@
                 <div class="row">
                     <div class="col-lg-6 col-md-7">
                         <div class="header__top__left">
-                            <p>Free shipping, 30-day return or refund guarantee.</p>
+                             <%if(session.getAttribute("member")==null){ //세션에 담겨진 데이터가 없다면%>
+                              <p>로그인이 필요합니다.</p>
+                        <%} else {%>
+                              <p><%=member.getName() %> 님 환영합니다.</p>
+                              
+                        <%} %>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-5">
                         <div class="header__top__right">
                             <div class="header__top__links">
-                                <a href="#">Sign in</a>
+                                
+                                <%if(session.getAttribute("member")==null){ //세션에 담겨진 데이터가 없다면%>
+                                <a href="/cinderella/shop/member/registForm">Sign Up</a>
+                                  <a href="/cinderella/shop/member/loginForm">Sign In</a>
+                                <%}else{ %>
+                                   <a href="/cinderella/shop/member/logout">Sign Out</a>
+                                <%} %>
+
                                 <a href="#">FAQs</a>
                             </div>
                             <div class="header__top__hover">
@@ -67,22 +92,27 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__logo">
-                        <a href="/cinderella/"><img src="/cinderella/resources/img/logo.png" alt=""></a>
+                        <a href="/cinderella/"><img src="/cinderella/resources/img/MainLogo.png" height="50px" alt=""></a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <nav class="header__menu mobile-menu">
                         <ul>
                             <li class="active"><a href="/cinderella/">Home</a></li>
-                            <li><a href="/cinderella/product">Product</a>
-                            
+                            <li><a href="#">Product</a>
                                <ul class="dropdown">
-                                  <li><a href="/cinderella/product/list?gendercategory_id=1">Man</a></li>
-                                    <li><a href="/cinderella/product/list?gendercategory_id=1">Woman</a></li>
-                               </ul>
+                                  <%for(int i=0; i<topList.size(); i++){ %>
+                                  <%TopCategory topCategory = topList.get(i); %>
+                                     <li><a href="/cinderella/shop/product/list?topcategory_id=<%=topCategory.getTopcategory_id()%>"><%=topCategory.getTopcategory_name()%></a></li>
+                                    <%} %> 
+                               </ul> 
                             </li>
-                            <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                           <li><a href="/cinderella/shop/photoreview">PhotoReview</a></li>
+                            <%if(session.getAttribute("member")==null){ //세션에 담겨진 데이터가 없다면%>
+                                <li><a href="javascript:alert('로그인이 필요한 서비스입니다')" >Shopping Cart</a></li>
+                            <%} else{%>
+                                <li><a href="/cinderella/shop/cart/list">Shopping Cart</a></li>
+                            <%} %>
+                            <li><a href="/cinderella/shop/photoreview/list">PhotoReview</a></li>
                         </ul>
                     </nav>
                 </div>

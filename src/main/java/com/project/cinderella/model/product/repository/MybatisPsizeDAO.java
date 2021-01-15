@@ -12,45 +12,53 @@ import com.project.cinderella.model.domain.Psize;
 
 @Repository
 public class MybatisPsizeDAO implements PsizeDAO{
-	@Autowired
-	private SqlSessionTemplate sqlSessionTemplate;
-	
-	@Override
-	public List selectAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+   @Autowired
+   private SqlSessionTemplate sqlSessionTemplate;
+   
+   @Override
+   public List selectAll() {
+      // TODO Auto-generated method stub
+      return null;
+   }
 
-	@Override
-	public List selectById(int product_id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+   @Override
+   public List selectById(int product_id) {
+      // TODO Auto-generated method stub
+      return null;
+   }
 
-	@Override
-	public Psize select(int psize_id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+   @Override
+   public Psize select(int psize_id) {
+      // TODO Auto-generated method stub
+      return null;
+   }
 
-	@Override
-	public void insert(Psize psize) throws ProductRegistException {
-		int result = sqlSessionTemplate.insert("Psize.insert", psize);
-		if(result==0) {
-			throw new ProductRegistException("사이즈 등록에 실패하였습니다");
-		}
-	}
+   @Override
+   public List selectBySize(String size) {
+      return sqlSessionTemplate.selectList("Psize.selectBySize", size);
+   }
+   
+   @Override
+   public void insert(Psize psize) throws ProductRegistException {
+      int result = sqlSessionTemplate.insert("Psize.insert", psize);
+      if(result==0) {
+         throw new ProductRegistException("사이즈 등록에 실패하였습니다");
+      }
+   }
 
-	@Override
-	public void update(Psize psize) throws ProductRegistException {
-		// TODO Auto-generated method stub
-		
-	}
+   @Override
+   public void update(Psize psize) throws ProductRegistException {
+      // TODO Auto-generated method stub
+      
+   }
 
-	@Override
-	public void delete(int psize_id) throws ProductRegistException {
-		// TODO Auto-generated method stub
-		
-	}
-	
+   @Override
+   public void delete(int product_id) throws ProductRegistException {
+      int result = sqlSessionTemplate.delete("Psize.delete", product_id);
+      if(result==0) {
+         throw new ProductRegistException("사이즈 등록에 실패하였습니다");
+      }
+   }
+
+
 }

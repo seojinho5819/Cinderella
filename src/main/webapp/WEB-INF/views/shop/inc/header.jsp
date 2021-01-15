@@ -13,5 +13,9 @@
     <link rel="stylesheet" href="/cinderella/resources/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="/cinderella/resources/css/style.css" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript" charset="utf-8"></script>
+
     
-    <script src="//cdn.ckeditor.com/4.15.1/standard/ckeditor.js"></script>
+
+    
+    
