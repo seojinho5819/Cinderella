@@ -5,6 +5,7 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%
    //List<TopCategory> topList = (List)request.getAttribute("topList");
+   //int topcategory_id = (int)request.getAttribute("topcategory_id");
    List<SubCategory> subList = (List)request.getAttribute("subList");
    //System.out.println("subList" + subList.toString());
    List<Product> productList  = (List)request.getAttribute("productList");
@@ -17,7 +18,7 @@
     <meta name="keywords" content="Male_Fashion, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Male-Fashion | Template</title>
+    <title>Cinderella | ProductList</title>
     <%@ include file="../inc/header.jsp" %>
 </head>
 <style>
@@ -49,7 +50,8 @@ function sizeL(){
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__text">
-                        <h4>Product</h4>
+                            <%-- <%TopCategory topCategory1 = topList.get(topcategory_id-1); %>  --%>
+                           <h4>Product -<%--  <%=topCategory1.getTopcategory_name()%> --%></h4>
                         <div class="breadcrumb__links">
                             <a href="/cinderella/">Home</a>
                             <span>Product</span>
@@ -95,88 +97,7 @@ function sizeL(){
                                     </div>
                                 </div>
                                 <%} %> 
-                                
-                                <!-- 사이즈 -->
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFour">Size</a>
-                                    </div>
-                                    <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__size">
-                                                <label for="s" onClick="sizeS()" value="s">s
-                                                    <input type="radio" id="s" value="s">
-                                                </label>
-                                                <label for="md" onClick="sizeM()" value="m">m
-                                                    <input type="radio" id="m" value="m">
-                                                </label>
-                                                <label for="xl" onClick="sizeL()" value="l" >l
-                                                    <input type="radio" id="l"  value="l" >
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- 태그 -->
-                                 <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFive">Tags</a>
-                                    </div>
-                                    <div id="collapseFive" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__tags">
-                                                <a href="#">Product</a>
-                                                <a href="#">Bags</a>
-                                                <a href="#">Shoes</a>
-                                                <a href="#">Fashio</a>
-                                                <a href="#">Clothing</a>
-                                                <a href="#">Hats</a>
-                                                <a href="#">Accessories</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- color -->
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseSix">Colors</a>
-                                    </div>
-                                    <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__color">
-                                                <label class="c-1" for="sp-1">
-                                                    <input type="radio" id="sp-1">
-                                                </label>
-                                                <label class="c-2" for="sp-2">
-                                                    <input type="radio" id="sp-2">
-                                                </label>
-                                                <label class="c-3" for="sp-3">
-                                                    <input type="radio" id="sp-3">
-                                                </label>
-                                                <label class="c-4" for="sp-4">
-                                                    <input type="radio" id="sp-4">
-                                                </label>
-                                                <label class="c-5" for="sp-5">
-                                                    <input type="radio" id="sp-5">
-                                                </label>
-                                                <label class="c-6" for="sp-6">
-                                                    <input type="radio" id="sp-6">
-                                                </label>
-                                                <label class="c-7" for="sp-7">
-                                                    <input type="radio" id="sp-7">
-                                                </label>
-                                                <label class="c-8" for="sp-8">
-                                                    <input type="radio" id="sp-8">
-                                                </label>
-                                                <label class="c-9" for="sp-9">
-                                                    <input type="radio" id="sp-9">
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        
                                
                             </div>
                         </div>
@@ -188,17 +109,13 @@ function sizeL(){
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__left">
-                                    <p>Showing 1–12 of 126 results</p>
+                                  
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__right">
-                                    <p>Sort by Price:</p>
-                                    <select>
-                                        <option value="">Low To High</option>
-                                        <option value="">$0 - $55</option>
-                                        <option value="">$55 - $100</option>
-                                    </select>
+                              
+                               
                                 </div>
                             </div>
                         </div>
